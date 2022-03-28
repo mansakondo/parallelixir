@@ -1,0 +1,15 @@
+# Ruby
+/.bundle/
+Gemfile.lock
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+# Elixir
+_build/
+mix.lock
+deps/
