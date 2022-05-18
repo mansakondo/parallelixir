@@ -45,6 +45,11 @@ class SomeJob
 end
 ```
 
+Use `perform_later` to enqueue jobs:
+```ruby
+SomeJob.perform_later(*args)
+```
+
 Run this in another terminal window to start the Parallelixir server:
     
     $ mix run
