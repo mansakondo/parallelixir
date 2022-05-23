@@ -1,4 +1,4 @@
-defmodule Parallelixir.WatcherSupervisor do
+defmodule Parallelixir.JobSupervisor do
   use Supervisor
 
   def start_link(args) do
@@ -17,8 +17,9 @@ defmodule Parallelixir.WatcherSupervisor do
         sync_connect: true,
         exit_on_disconnection: true
       },
-      {Parallelixir.JobQueuesWatcher, args},
-      Parallelixir.PubSub
+      Parallelixir.PubSub,
+      {Parallelixir.EnqueuedJobsProcessor, args},
+      Parallelixir.Scheduler
     ]
 
     Supervisor.init(children, strategy: :rest_for_one)

@@ -1,4 +1,4 @@
-defmodule Parallelixir.JobQueuesWatcher do
+defmodule Parallelixir.EnqueuedJobsProcessor do
   use GenServer
 
   def start_link(args) do
@@ -10,15 +10,24 @@ defmodule Parallelixir.JobQueuesWatcher do
 
   @impl true
   def init([queues]) do
-    {:ok, queues}
+    {:ok, [queues], {:continue, :watch_queues}}
+  end
+
+  @impl true
+  def handle_continue(:watch_queues, queues) do
+    process queues
+
+    {:noreply, queues}
   end
 
   @impl true
   def handle_cast(:new_job_enqueued, queues) do
-    watch queues
+    process queues
+
+    {:noreply, queues}
   end
 
-  defp watch(queues) do
+  defp process(queues) do
     queues |> Enum.each(fn (queue_name) ->
       {:ok, queue} = :redix |> Redix.command(["LRANGE", queue_name, 0, -1])
 
@@ -28,8 +37,6 @@ defmodule Parallelixir.JobQueuesWatcher do
         start_worker(payload)
       end)
     end)
-
-    {:noreply, queues}
   end
 
   defp start_worker(payload) do

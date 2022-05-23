@@ -34,6 +34,10 @@ Then fetch the dependencies:
 
 ## Usage
 
+This library works with Rails out-of-the-box. To use it in non-Rails environments, you need
+to define a Rake task named `:environment` which loads all your dependencies the same way the
+Rails `:environment` task does.
+
 Include the `Parallelixir::Job` mixin in your classes:
 ```ruby
 class SomeJob
@@ -45,13 +49,20 @@ class SomeJob
 end
 ```
 
-Use `perform_later` to enqueue jobs:
+Call `perform_later` to enqueue jobs:
 ```ruby
 SomeJob.perform_later(*args)
 ```
 
+Use the `:wait` option with the supported arguments (`ActiveSupport::Date`, `ActiveSupport::DateTime`, `ActiveSupport::Time`,`ActiveSupport::Duration`, `Integer`) to schedule jobs to be run at a specific time:
+```ruby
+SomeJob.perform_later(*args, wait: Date.tomorrow)
+SomeJob.perform_later(*args, wait: 24.hours)
+SomeJob.perform_later(*args, wait: 86400.seconds)
+```
+
 Run this in another terminal window to start the Parallelixir server:
-    
+
     $ mix run
 
 Or add this command in a `Procfile` if you're using Foreman.

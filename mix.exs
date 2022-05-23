@@ -24,6 +24,7 @@ defmodule Parallelixir.MixProject do
     [
       {:redix, "~> 1.1"},
       {:telemetry, "~> 1.0"},
+      {:json, "~> 1.4"}
     ]
   end
 end

@@ -9,7 +9,7 @@ defmodule Parallelixir do
     children = [
       Parallelixir.WorkerSupervisor,
       {
-        Parallelixir.WatcherSupervisor,
+        Parallelixir.JobSupervisor,
         [queues]
       },
       Parallelixir.Server
