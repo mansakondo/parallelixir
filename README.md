@@ -1,9 +1,8 @@
 # Parallelixir
 
-A library which delegates Ruby background job processing to Elixir.
+A Ruby background job framework powered by Elixir.
 
-This library uses Redis to enqueue jobs, and notify Elixir when they're enqueued, so that they
-can be run through Erlang ports.
+This library uses Redis to enqueue jobs and notify Elixir to run them through Erlang ports.
 
 WARNING: This project is experimental, so don't use it in production!
 
